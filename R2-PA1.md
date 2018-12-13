@@ -3,7 +3,6 @@ title: "Reproducible Research: Peer Assessment 1"
 output: 
   html_document:
     keep_md: true
-    theme: paper
     includes:
       in_header: ga_track.html
 author: "M.J. Liu"
