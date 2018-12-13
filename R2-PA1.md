@@ -6,6 +6,8 @@ output:
     theme: paper
     includes:
       in_header: ga_track.html
+author: "M.J. Liu"
+date: "13 December, 2018" 
 ---
 ## Introduction
 It is now possible to collect a large amount of data about personal movement using activity monitoring devices such as a Fitbit, Nike Fuelband, or Jawbone Up. These type of devices are part of the “quantified self” movement – a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. But these data remain under-utilized both because the raw data are hard to obtain and there is a lack of statistical methods and software for processing and interpreting the data.
@@ -27,6 +29,7 @@ The dataset is stored in a comma-separated-value (CSV) file and there are a tota
 ```r
 library(dplyr)
 library(tidyr)
+library(Hmisc)
 ```
 
 ## Loading and preprocessing the data
@@ -93,9 +96,31 @@ plot(df.agg$steps_mean ~ as.Date(df.agg$date), type="l", xlab=NA, ylab=NA, main 
 ## Imputing missing values
 
 
+```r
+# impute missing steps value to the mean
+df$steps_imputed <- with(df, impute(steps, mean))
+
+# calculate weekend vs weekday
+df$weekdays <- as.factor(weekdays(as.Date(df$date)))
+df$weekend <- ifelse(df$weekdays=="Sunday" | df$weekdays=="Saturday", "weekend", "weekday")
+
+
+ddf <- df %>% 
+          group_by(weekend, interval) %>% 
+          summarise(steps_total  = sum(steps_imputed), 
+                    steps_mean   = mean(steps_imputed), 
+                    steps_median = median(steps_imputed)
+            )
+
+par(mfrow=c(2,1))
+plot(steps_mean ~ interval, data=subset(ddf, ddf$weekend=="weekend"), type="l", xlab=NA, ylab=NA, main = "weekend", frame=F, axes = T, col="#66cc00", cex.lab=.25)
+plot(steps_mean ~ interval, data=subset(ddf, ddf$weekend=="weekday"), type="l", xlab=NA, ylab=NA, main = "weekday", frame=F, axes = T, col="#66cc00", cex.lab=.25)
+```
+
+![](R2-PA1_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
 ## Are there differences in activity patterns between weekdays and weekends?
-
+From above plot, it does seem increased activities throughout the day for weekends, while on weekday, activities are centred around 800-900 interval, perhaps the lunch time walking or brief walk after lunch. 
 
 
 [1]: https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip
