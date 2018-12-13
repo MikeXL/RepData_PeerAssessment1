@@ -3,7 +3,7 @@ title: "Reproducible Research: Peer Assessment 1"
 output: 
   html_document:
     keep_md: true
-    theme: paper
+    theme: paper 
     includes:
       in_header: ga_track.html
 author: "M.J. Liu"
@@ -63,7 +63,8 @@ hist(df.agg$steps_mean, main="Histogram of the total number of steps taken each 
 3. Calculate and report the mean and median of the total number of steps taken per day  
 
 ```{r}
-head(df.agg)
+mean(df.agg$steps_total)
+median(df.agg$steps_total)
 ```
 
 ## What is the average daily activity pattern?

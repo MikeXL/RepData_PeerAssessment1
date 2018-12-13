@@ -3,6 +3,7 @@ title: "Reproducible Research: Peer Assessment 1"
 output: 
   html_document:
     keep_md: true
+    theme: paper 
     includes:
       in_header: ga_track.html
 author: "M.J. Liu"
@@ -68,19 +69,19 @@ hist(df.agg$steps_mean, main="Histogram of the total number of steps taken each 
 
 
 ```r
-head(df.agg)
+mean(df.agg$steps_total)
 ```
 
 ```
-## # A tibble: 6 x 4
-##   date       steps_total steps_mean steps_median
-##   <fct>            <int>      <dbl>        <dbl>
-## 1 2012-10-02         126      0.438            0
-## 2 2012-10-03       11352     39.4              0
-## 3 2012-10-04       12116     42.1              0
-## 4 2012-10-05       13294     46.2              0
-## 5 2012-10-06       15420     53.5              0
-## 6 2012-10-07       11015     38.2              0
+## [1] 10766.19
+```
+
+```r
+median(df.agg$steps_total)
+```
+
+```
+## [1] 10765
 ```
 
 ## What is the average daily activity pattern?
